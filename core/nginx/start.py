@@ -9,6 +9,8 @@ if os.path.exists("/var/run/nginx.pid"):
 
 if os.environ["TLS_FLAVOR"] in [ "letsencrypt","mail-letsencrypt" ]:
     subprocess.Popen(["/letsencrypt.py"])
+elif os.environ["TLS_FLAVOR"] == "mail":
+    subprocess.Popen(["/certwatcher.py"])
 
 subprocess.call(["/config.py"])
 os.execv("/usr/sbin/nginx", ["nginx", "-g", "daemon off;"])
