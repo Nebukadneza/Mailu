@@ -78,6 +78,7 @@ v1.6.0 - unreleased
 - Enhancement: Update documentation
 - Enhancement: Include favicon package ([#801](https://github.com/Mailu/Mailu/issues/801), ([#802](https://github.com/Mailu/Mailu/issues/802))
 - Enhancement: Add logging at critical places in python start.py scripts. Implement LOG_LEVEL to control verbosity ([#588](https://github.com/Mailu/Mailu/issues/588))
+- Enhancement: Make the preference of aliases over users in destination-resolution configurable via ``PREFER_USER_OVER_ALIAS`` ([#815](https://github.com/Mailu/Mailu/issues/815))
 - Upstream: Update Roundcube
 - Upstream: Update Rainloop
 - Bug: Rainloop fails with "domain not allowed" ([#93](https://github.com/Mailu/Mailu/issues/93))

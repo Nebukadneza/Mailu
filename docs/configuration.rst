@@ -96,6 +96,8 @@ Log messages equal or higher than this priority will be printed.
 Can be one of: CRITICAL, ERROR, WARNING, INFO, DEBUG or NOTSET.
 See the `python docs`_ for more information.
 
+The ``PREFER_USER_OVER_ALIAS`` setting controls the order of users (user-accounts) versus aliases in deciding where to deliver an incoming email. Consider the following: Your domain has a hand full of users (``userA`` and ``userB``), but you want a domain-wide catchall alias (``%@domain.tld`` ⇒ ``user-A@domain.tld``). With the default behavior (``false``), all emails on that domain, even ``userB@domain.tld``, will get delivered to ``userA``(!). When setting ``PREFER_USER_OVER_ALIAS`` to ``true``, the user-account ``userB@domain.tld`` takes precedence over the catchall: ``userB@domain.tld`` will get delivered to ``userB``, but ``everything-else@domain.tld`` will get delivered to ``userA``.
+
 .. _`python docs`: https://docs.python.org/3.6/library/logging.html#logging-levels
 
 Infrastructure settings

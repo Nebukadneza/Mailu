@@ -260,6 +260,8 @@ class Email(object):
 
     @classmethod
     def resolve_destination(cls, localpart, domain_name, ignore_forward_keep=False):
+        alias_result = None
+        user_result = None
         localpart_maybe_split = localpart
         if os.environ.get('RECIPIENT_DELIMITER') in localpart:
             localpart_maybe_split = localpart.rsplit(os.environ.get('RECIPIENT_DELIMITER'), 1)[0]
@@ -267,11 +269,9 @@ class Email(object):
         alias = Alias.resolve(localpart_maybe_split, domain_name)
 
         if alias:
-            return alias.destination
+            alias_result = alias.destination
 
-        user = User.query.get('{}@{}'.format(localpart, domain_name))
-        if not user and localpart_stripped:
-            user = User.query.get('{}@{}'.format(localpart_stripped, domain_name))
+        user = User.query.get('{}@{}'.format(localpart_maybe_split, domain_name))
         if user:
             if user.forward_enabled:
                 destination = user.forward_destination
@@ -279,7 +279,12 @@ class Email(object):
                     destination.append(user.email)
             else:
                 destination = [user.email]
-            return destination
+            user_result = destination
+
+        if os.environ.get('PREFER_USER_OVER_ALIAS', 'false').lower() in ('true', '1', 'yes'):
+            return user_result or alias_result
+        else:
+            return alias_result or user_result
 
     def __str__(self):
         return self.email
